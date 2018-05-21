@@ -42,7 +42,7 @@ cc_library_shared {
         "-fprefetch-loop-arrays",
         "-Wall",
         "-Werror",
-        "-Wno-error=unused-variable",
+        "-Wno-sign-compare",
     ],
 
     local_include_dirs: ["include"],
