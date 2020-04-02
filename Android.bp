@@ -31,6 +31,10 @@ cc_library_shared {
             },
         },
     },
+    apex_available: [
+        "//apex_available:platform",
+        "com.android.media.swcodec",
+    ],
     srcs: ["libspeexdsp/resample.c"],
 
     cflags: [
