@@ -1,6 +1,6 @@
 /* Copyright (C) 2007 Jean-Marc Valin
 
-   File: testresample.c
+   File: testresample2.c
    Testing the resampling code
 
    Redistribution and use in source and binary forms, with or without
@@ -39,46 +39,53 @@
 #include <math.h>
 #include <stdlib.h>
 
-#define NN 256
+#define PERIOD 32
+#define INBLOCK 1024
+#define RATE 48000
 
 int main()
 {
    spx_uint32_t i;
-   short *in;
-   short *out;
    float *fin, *fout;
-   int count = 0;
-   SpeexResamplerState *st = speex_resampler_init(1, 8000, 12000, 10, NULL);
-   speex_resampler_set_rate(st, 96000, 44100);
+   int rate = 1000, off = 0, avail = INBLOCK;
+   SpeexResamplerState *st = speex_resampler_init(1, RATE, RATE, 4, NULL);
+   speex_resampler_set_rate(st, RATE, rate);
    speex_resampler_skip_zeros(st);
 
-   in = malloc(NN*sizeof(short));
-   out = malloc(2*NN*sizeof(short));
-   fin = malloc(NN*sizeof(float));
-   fout = malloc(2*NN*sizeof(float));
+   fin = malloc(INBLOCK*2*sizeof(float));
+   for (i=0; i<INBLOCK*2;i++)
+     fin[i] = sinf ((float)i/PERIOD * 2 * M_PI) * 0.9;
+
+   fout = malloc(INBLOCK*4*sizeof(float));
+
    while (1)
    {
       spx_uint32_t in_len;
       spx_uint32_t out_len;
-      fread(in, sizeof(short), NN, stdin);
-      if (feof(stdin))
-         break;
-      for (i=0;i<NN;i++)
-         fin[i]=in[i];
-      in_len = NN;
-      out_len = 2*NN;
-      /*if (count==2)
-         speex_resampler_set_quality(st, 10);*/
-      speex_resampler_process_float(st, 0, fin, &in_len, fout, &out_len);
-      for (i=0;i<out_len;i++)
-         out[i]=floor(.5+fout[i]);
-      /*speex_warning_int("writing", out_len);*/
-      fwrite(out, sizeof(short), out_len, stdout);
-      count++;
+
+      in_len = avail;
+      out_len = (in_len * rate + RATE-1) / RATE;
+
+      fprintf (stderr, "%d %d %d %d -> ", rate, off, in_len, out_len);
+
+      speex_resampler_process_float(st, 0, fin + off, &in_len, fout, &out_len);
+
+      fprintf (stderr, "%d %d\n", in_len, out_len);
+      off += in_len;
+      avail = avail - in_len + INBLOCK;
+
+      if (off >= INBLOCK)
+        off -= INBLOCK;
+
+      fwrite(fout, sizeof(float), out_len, stdout);
+
+      rate += 100;
+      if (rate > 128000)
+        break;
+
+      speex_resampler_set_rate(st, RATE, rate);
    }
    speex_resampler_destroy(st);
-   free(in);
-   free(out);
    free(fin);
    free(fout);
    return 0;
