@@ -95,7 +95,8 @@ build_triplet = x86_64-pc-linux-gnu
 host_triplet = x86_64-pc-linux-gnu
 noinst_PROGRAMS = testdenoise$(EXEEXT) \
 	testecho$(EXEEXT) testjitter$(EXEEXT) \
-	testresample$(EXEEXT)
+	testresample$(EXEEXT) \
+	testresample2$(EXEEXT)
 subdir = libspeexdsp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -174,6 +175,11 @@ am__testresample_SOURCES_DIST = testresample.c
 am_testresample_OBJECTS = testresample.$(OBJEXT)
 testresample_OBJECTS = $(am_testresample_OBJECTS)
 testresample_DEPENDENCIES = libspeexdsp.la
+am__testresample2_SOURCES_DIST = testresample2.c
+am_testresample2_OBJECTS =  \
+	testresample2.$(OBJEXT)
+testresample2_OBJECTS = $(am_testresample2_OBJECTS)
+testresample2_DEPENDENCIES = libspeexdsp.la
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -196,7 +202,7 @@ am__depfiles_remade = ./$(DEPDIR)/buffer.Plo ./$(DEPDIR)/fftwrap.Plo \
 	./$(DEPDIR)/resample.Plo ./$(DEPDIR)/scal.Plo \
 	./$(DEPDIR)/smallft.Plo ./$(DEPDIR)/testdenoise.Po \
 	./$(DEPDIR)/testecho.Po ./$(DEPDIR)/testjitter.Po \
-	./$(DEPDIR)/testresample.Po
+	./$(DEPDIR)/testresample.Po ./$(DEPDIR)/testresample2.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -218,11 +224,12 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libspeexdsp_la_SOURCES) $(testdenoise_SOURCES) \
 	$(testecho_SOURCES) $(testjitter_SOURCES) \
-	$(testresample_SOURCES)
+	$(testresample_SOURCES) $(testresample2_SOURCES)
 DIST_SOURCES = $(am__libspeexdsp_la_SOURCES_DIST) \
 	$(am__testdenoise_SOURCES_DIST) $(am__testecho_SOURCES_DIST) \
 	$(am__testjitter_SOURCES_DIST) \
-	$(am__testresample_SOURCES_DIST)
+	$(am__testresample_SOURCES_DIST) \
+	$(am__testresample2_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -281,6 +288,7 @@ FFT_PKGCONFIG =
 FGREP = /usr/bin/grep -F
 FILECMD = file
 GREP = /usr/bin/grep
+INCLUDE_STDINT = #include <stdint.h>
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -309,10 +317,10 @@ OTOOL64 =
 PACKAGE = speexdsp
 PACKAGE_BUGREPORT = speex-dev@xiph.org
 PACKAGE_NAME = speexdsp
-PACKAGE_STRING = speexdsp 1.2rc3
+PACKAGE_STRING = speexdsp 1.2.1
 PACKAGE_TARNAME = speexdsp
 PACKAGE_URL = 
-PACKAGE_VERSION = 1.2rc3
+PACKAGE_VERSION = 1.2.1
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
@@ -325,11 +333,11 @@ SIZE16 = int16_t
 SIZE32 = int32_t
 SPEEXDSP_LT_AGE = 5
 SPEEXDSP_LT_CURRENT = 6
-SPEEXDSP_LT_REVISION = 0
+SPEEXDSP_LT_REVISION = 2
 STRIP = strip
 USIZE16 = uint16_t
 USIZE32 = uint32_t
-VERSION = 1.2rc3
+VERSION = 1.2.1
 abs_builddir = /usr/local/google/home/sadafebrahimi/aosp/forupdatesonly/aosp-master-with-phones/external/speex/libspeexdsp
 abs_srcdir = /usr/local/google/home/sadafebrahimi/aosp/forupdatesonly/aosp-master-with-phones/external/speex/libspeexdsp
 abs_top_builddir = /usr/local/google/home/sadafebrahimi/aosp/forupdatesonly/aosp-master-with-phones/external/speex
@@ -397,11 +405,11 @@ noinst_HEADERS = arch.h 	bfin.h \
 		fixed_arm4.h \
 		fixed_arm5e.h 	fixed_bfin.h 	fixed_debug.h 	\
 		math_approx.h 		misc_bfin.h 	\
-		stack_alloc.h 	fftwrap.h \
+		fftwrap.h \
 	filterbank.h fixed_generic.h os_support.h \
 	pseudofloat.h smallft.h vorbis_psy.h resample_sse.h resample_neon.h
 
-libspeexdsp_la_LDFLAGS = -no-undefined -version-info 6:0:5
+libspeexdsp_la_LDFLAGS = -no-undefined -version-info 6:2:5
 libspeexdsp_la_LIBADD = $(LIBM)
 testdenoise_SOURCES = testdenoise.c
 testdenoise_LDADD = libspeexdsp.la 
@@ -411,6 +419,8 @@ testjitter_SOURCES = testjitter.c
 testjitter_LDADD = libspeexdsp.la 
 testresample_SOURCES = testresample.c
 testresample_LDADD = libspeexdsp.la  -lm
+testresample2_SOURCES = testresample2.c
+testresample2_LDADD = libspeexdsp.la  -lm
 all: all-am
 
 .SUFFIXES:
@@ -508,6 +518,10 @@ testresample$(EXEEXT): $(testresample_OBJECTS) $(testresample_DEPENDENCIES) $(EX
 	@rm -f testresample$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testresample_OBJECTS) $(testresample_LDADD) $(LIBS)
 
+testresample2$(EXEEXT): $(testresample2_OBJECTS) $(testresample2_DEPENDENCIES) $(EXTRA_testresample2_DEPENDENCIES) 
+	@rm -f testresample2$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(testresample2_OBJECTS) $(testresample2_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -529,6 +543,7 @@ include ./$(DEPDIR)/testdenoise.Po # am--include-marker
 include ./$(DEPDIR)/testecho.Po # am--include-marker
 include ./$(DEPDIR)/testjitter.Po # am--include-marker
 include ./$(DEPDIR)/testresample.Po # am--include-marker
+include ./$(DEPDIR)/testresample2.Po # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -705,6 +720,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/testecho.Po
 	-rm -f ./$(DEPDIR)/testjitter.Po
 	-rm -f ./$(DEPDIR)/testresample.Po
+	-rm -f ./$(DEPDIR)/testresample2.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -765,6 +781,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/testecho.Po
 	-rm -f ./$(DEPDIR)/testjitter.Po
 	-rm -f ./$(DEPDIR)/testresample.Po
+	-rm -f ./$(DEPDIR)/testresample2.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
