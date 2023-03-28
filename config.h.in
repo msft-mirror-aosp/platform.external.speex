@@ -15,9 +15,6 @@
 /* Disable all parts of the API that are using floats */
 #undef DISABLE_FLOAT_API
 
-/* Enable valgrind extra checks */
-#undef ENABLE_VALGRIND
-
 /* Symbol visibility prefix */
 #undef EXPORT
 
@@ -30,14 +27,8 @@
 /* Compile as floating-point */
 #undef FLOATING_POINT
 
-/* Define to 1 if you have the <alloca.h> header file. */
-#undef HAVE_ALLOCA_H
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
-
-/* Define to 1 if you have the <getopt.h> header file. */
-#undef HAVE_GETOPT_H
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
@@ -131,9 +122,6 @@
 /* Enable support for TI C55X DSP */
 #undef TI_C55X
 
-/* Make use of alloca */
-#undef USE_ALLOCA
-
 /* Use FFTW3 for FFT */
 #undef USE_GPL_FFTW3
 
@@ -143,8 +131,17 @@
 /* Use KISS Fast Fourier Transform */
 #undef USE_KISS_FFT
 
+/* Enable NEON support */
+#undef USE_NEON
+
 /* Use FFT from OggVorbis */
 #undef USE_SMALLFT
+
+/* Enable SSE support */
+#undef USE_SSE
+
+/* Enable SSE2 support */
+#undef USE_SSE2
 
 /* Use C99 variable-size arrays */
 #undef VAR_ARRAYS
@@ -160,15 +157,6 @@
 #  undef WORDS_BIGENDIAN
 # endif
 #endif
-
-/* Enable NEON support */
-#undef _USE_NEON
-
-/* Enable SSE support */
-#undef _USE_SSE
-
-/* Enable SSE2 support */
-#undef _USE_SSE2
 
 /* Define to empty if `const' does not conform to ANSI C. */
 #undef const
