@@ -16,9 +16,6 @@
 /* Disable all parts of the API that are using floats */
 /* #undef DISABLE_FLOAT_API */
 
-/* Enable valgrind extra checks */
-/* #undef ENABLE_VALGRIND */
-
 /* Symbol visibility prefix */
 #define EXPORT __attribute__((visibility("default")))
 
@@ -31,14 +28,8 @@
 /* Compile as floating-point */
 #define FLOATING_POINT /**/
 
-/* Define to 1 if you have the <alloca.h> header file. */
-#define HAVE_ALLOCA_H 1
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
-
-/* Define to 1 if you have the <getopt.h> header file. */
-#define HAVE_GETOPT_H 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
@@ -83,7 +74,7 @@
 #define PACKAGE_NAME "speexdsp"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "speexdsp 1.2rc3"
+#define PACKAGE_STRING "speexdsp 1.2.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "speexdsp"
@@ -92,7 +83,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.2rc3"
+#define PACKAGE_VERSION "1.2.1"
 
 /* Resample with full SINC table (no interpolation) */
 /* #undef RESAMPLE_FULL_SINC_TABLE */
@@ -132,9 +123,6 @@
 /* Enable support for TI C55X DSP */
 /* #undef TI_C55X */
 
-/* Make use of alloca */
-/* #undef USE_ALLOCA */
-
 /* Use FFTW3 for FFT */
 /* #undef USE_GPL_FFTW3 */
 
@@ -144,8 +132,17 @@
 /* Use KISS Fast Fourier Transform */
 /* #undef USE_KISS_FFT */
 
+/* Enable NEON support */
+/* #undef USE_NEON */
+
 /* Use FFT from OggVorbis */
 #define USE_SMALLFT /**/
+
+/* Enable SSE support */
+#define USE_SSE /**/
+
+/* Enable SSE2 support */
+#define USE_SSE2 /**/
 
 /* Use C99 variable-size arrays */
 #define VAR_ARRAYS /**/
@@ -161,15 +158,6 @@
 /* #  undef WORDS_BIGENDIAN */
 # endif
 #endif
-
-/* Enable NEON support */
-/* #undef _USE_NEON */
-
-/* Enable SSE support */
-#define _USE_SSE /**/
-
-/* Enable SSE2 support */
-#define _USE_SSE2 /**/
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
