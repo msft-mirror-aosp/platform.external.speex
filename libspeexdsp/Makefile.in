@@ -95,7 +95,8 @@ build_triplet = @build@
 host_triplet = @host@
 @BUILD_EXAMPLES_TRUE@noinst_PROGRAMS = testdenoise$(EXEEXT) \
 @BUILD_EXAMPLES_TRUE@	testecho$(EXEEXT) testjitter$(EXEEXT) \
-@BUILD_EXAMPLES_TRUE@	testresample$(EXEEXT)
+@BUILD_EXAMPLES_TRUE@	testresample$(EXEEXT) \
+@BUILD_EXAMPLES_TRUE@	testresample2$(EXEEXT)
 subdir = libspeexdsp
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -174,6 +175,11 @@ am__testresample_SOURCES_DIST = testresample.c
 @BUILD_EXAMPLES_TRUE@am_testresample_OBJECTS = testresample.$(OBJEXT)
 testresample_OBJECTS = $(am_testresample_OBJECTS)
 @BUILD_EXAMPLES_TRUE@testresample_DEPENDENCIES = libspeexdsp.la
+am__testresample2_SOURCES_DIST = testresample2.c
+@BUILD_EXAMPLES_TRUE@am_testresample2_OBJECTS =  \
+@BUILD_EXAMPLES_TRUE@	testresample2.$(OBJEXT)
+testresample2_OBJECTS = $(am_testresample2_OBJECTS)
+@BUILD_EXAMPLES_TRUE@testresample2_DEPENDENCIES = libspeexdsp.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -196,7 +202,7 @@ am__depfiles_remade = ./$(DEPDIR)/buffer.Plo ./$(DEPDIR)/fftwrap.Plo \
 	./$(DEPDIR)/resample.Plo ./$(DEPDIR)/scal.Plo \
 	./$(DEPDIR)/smallft.Plo ./$(DEPDIR)/testdenoise.Po \
 	./$(DEPDIR)/testecho.Po ./$(DEPDIR)/testjitter.Po \
-	./$(DEPDIR)/testresample.Po
+	./$(DEPDIR)/testresample.Po ./$(DEPDIR)/testresample2.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -218,11 +224,12 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(libspeexdsp_la_SOURCES) $(testdenoise_SOURCES) \
 	$(testecho_SOURCES) $(testjitter_SOURCES) \
-	$(testresample_SOURCES)
+	$(testresample_SOURCES) $(testresample2_SOURCES)
 DIST_SOURCES = $(am__libspeexdsp_la_SOURCES_DIST) \
 	$(am__testdenoise_SOURCES_DIST) $(am__testecho_SOURCES_DIST) \
 	$(am__testjitter_SOURCES_DIST) \
-	$(am__testresample_SOURCES_DIST)
+	$(am__testresample_SOURCES_DIST) \
+	$(am__testresample2_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -281,6 +288,7 @@ FFT_PKGCONFIG = @FFT_PKGCONFIG@
 FGREP = @FGREP@
 FILECMD = @FILECMD@
 GREP = @GREP@
+INCLUDE_STDINT = @INCLUDE_STDINT@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -397,7 +405,7 @@ noinst_HEADERS = arch.h 	bfin.h \
 		fixed_arm4.h \
 		fixed_arm5e.h 	fixed_bfin.h 	fixed_debug.h 	\
 		math_approx.h 		misc_bfin.h 	\
-		stack_alloc.h 	fftwrap.h \
+		fftwrap.h \
 	filterbank.h fixed_generic.h os_support.h \
 	pseudofloat.h smallft.h vorbis_psy.h resample_sse.h resample_neon.h
 
@@ -411,6 +419,8 @@ libspeexdsp_la_LIBADD = $(LIBM)
 @BUILD_EXAMPLES_TRUE@testjitter_LDADD = libspeexdsp.la @FFT_LIBS@
 @BUILD_EXAMPLES_TRUE@testresample_SOURCES = testresample.c
 @BUILD_EXAMPLES_TRUE@testresample_LDADD = libspeexdsp.la @FFT_LIBS@ @LIBM@
+@BUILD_EXAMPLES_TRUE@testresample2_SOURCES = testresample2.c
+@BUILD_EXAMPLES_TRUE@testresample2_LDADD = libspeexdsp.la @FFT_LIBS@ @LIBM@
 all: all-am
 
 .SUFFIXES:
@@ -508,6 +518,10 @@ testresample$(EXEEXT): $(testresample_OBJECTS) $(testresample_DEPENDENCIES) $(EX
 	@rm -f testresample$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(testresample_OBJECTS) $(testresample_LDADD) $(LIBS)
 
+testresample2$(EXEEXT): $(testresample2_OBJECTS) $(testresample2_DEPENDENCIES) $(EXTRA_testresample2_DEPENDENCIES) 
+	@rm -f testresample2$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(testresample2_OBJECTS) $(testresample2_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -529,6 +543,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testecho.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testjitter.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testresample.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testresample2.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -705,6 +720,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/testecho.Po
 	-rm -f ./$(DEPDIR)/testjitter.Po
 	-rm -f ./$(DEPDIR)/testresample.Po
+	-rm -f ./$(DEPDIR)/testresample2.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -765,6 +781,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/testecho.Po
 	-rm -f ./$(DEPDIR)/testjitter.Po
 	-rm -f ./$(DEPDIR)/testresample.Po
+	-rm -f ./$(DEPDIR)/testresample2.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
