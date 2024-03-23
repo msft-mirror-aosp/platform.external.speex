@@ -65,10 +65,7 @@ cc_library_shared {
     arch: {
         arm: {
             instruction_set: "arm",
-
-            neon: {
-                cflags: ["-D_USE_NEON"],
-            },
+            cflags: ["-D_USE_NEON"],
         },
     },
     srcs: ["libspeexdsp/resample.c"],
